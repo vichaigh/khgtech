@@ -1,3 +1,16 @@
+import type { Metadata } from "next";
+
+export const metadata: Metadata = {
+  title: "KHG Tech",
+  description: "CRM & TikTok Ads Integration Platform",
+  keywords: ["CRM", "TikTok", "Ads", "Integration", "Platform"],
+  authors: [{ name: "KHG Tech", url: "https://khgtech.vip" }],
+  robots: "index, follow",
+  icons: {
+    icon: "/favicon.ico",
+  },
+};
+
 export default function Home() {
   return (
     <div style={{
