@@ -29,7 +29,17 @@ export default function TikTokCallbackPage() {
           TikTok Callback
         </h1>
         <p style={{ marginBottom: 20 }}>
-          Processing authentication response from TikTok...
+          {typeof window !== "undefined" && (
+            <>
+              {(() => {
+                const params = new URLSearchParams(window.location.search);
+                const code = params.get("code");
+                return code
+                  ? <>Received code from TikTok: <b>{code}</b></>
+                  : <>No code parameter found in TikTok callback.</>;
+              })()}
+            </>
+          )}
         </p>
         {/* You can implement logic here to handle callback params */}
         <p style={{ fontSize: 13, color: "#888" }}>
