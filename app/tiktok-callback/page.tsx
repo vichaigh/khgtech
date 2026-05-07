@@ -171,16 +171,11 @@ export default function TikTokCallbackPage() {
                 </div>
 
                 {tokenResult && (
-                  <div style={{ marginTop: 12 }}>
-                    <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", marginBottom: 4 }}>
-                      <span style={{ fontSize: 13, fontWeight: 600 }}>Token Response:</span>
-                      <button onClick={handleCopyToken} style={{ fontSize: 12, padding: "2px 8px", border: "1px solid #ccc", borderRadius: 4, cursor: "pointer", background: "#f7f7fa" }}>
-                        Copy Token
-                      </button>
-                    </div>
-                    <pre style={{ background: "#f4f4f9", borderRadius: 5, padding: 10, fontSize: 12, overflow: "auto", whiteSpace: "pre-wrap", wordBreak: "break-all", textAlign: "left" }}>
-                      {tokenResult}
-                    </pre>
+                  <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8 }}>
+                    <span style={{ color: "#1a7f37", fontWeight: 600, fontSize: 14 }}>Token exchange successful</span>
+                    <button onClick={handleCopyToken} style={{ fontSize: 12, padding: "2px 8px", border: "1px solid #ccc", borderRadius: 4, cursor: "pointer", background: "#f7f7fa" }}>
+                      Copy Token
+                    </button>
                   </div>
                 )}
                 {tokenError && (

@@ -49,8 +49,8 @@ export default function UploadPhotoPage() {
           post_info: {
             title,
             description,
+            privacy_level: "SELF_ONLY",
             disable_comment: disableComment,
-            privacy_level: privacyLevel,
             auto_add_music: autoAddMusic,
           },
           source_info: {

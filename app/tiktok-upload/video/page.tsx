@@ -48,12 +48,14 @@ export default function UploadVideoPage() {
           post_info: {
             title,
             description,
+            privacy_level: "SELF_ONLY",
             disable_comment: disableComment,
             disable_duet: disableDuet,
             disable_stitch: disableStitch,
             video_cover_timestamp_ms: coverTimestamp,
             brand_content_toggle: brandContent,
             brand_organic_toggle: brandOrganic,
+
           },
           source_info: {
             source: "PULL_FROM_URL",
