@@ -1,4 +1,6 @@
 import type { Metadata } from "next";
+import SiteFooter from "../components/SiteFooter";
+import SiteHeader from "../components/SiteHeader";
 
 export const metadata: Metadata = {
   title: "TikTok Terms of Service",
@@ -6,8 +8,9 @@ export const metadata: Metadata = {
 
 export default function Page() {
   return (
-    <div className="min-h-full bg-[#f9fafb] text-[#333] leading-relaxed">
-      <div className="mx-auto max-w-[800px] bg-white px-5 py-10">
+    <div className="flex min-h-screen flex-col bg-[#f9fafb] text-[#333] leading-relaxed">
+      <SiteHeader subtitle="Terms of Service" />
+      <div className="mx-auto w-full max-w-[800px] flex-1 bg-white px-5 py-10">
         <h1 className="mb-2.5 text-[#111]">TikTok Terms of Service</h1>
         <p className="mb-8 text-sm text-[#777]">Last updated: April 30, 2026</p>
 
@@ -95,6 +98,7 @@ export default function Page() {
           official support channels.
         </p>
       </div>
+      <SiteFooter />
     </div>
   );
 }

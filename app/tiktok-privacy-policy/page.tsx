@@ -1,21 +1,35 @@
 "use client";
 
 import React from "react";
+import SiteFooter from "../components/SiteFooter";
+import SiteHeader from "../components/SiteHeader";
 
 export default function PrivacyPolicyPage() {
   return (
-    <div className="container" style={{
-      maxWidth: 800,
-      margin: "auto",
-      padding: "40px 20px",
-      background: "#fff",
-      fontFamily: "Arial, sans-serif",
-      lineHeight: 1.6,
-      color: "#333",
-      minHeight: "100vh",
-      boxSizing: "border-box",
-    }}>
-      <h1 style={{ color: "#111", marginBottom: 10 }}>Privacy Policy</h1>
+    <div
+      style={{
+        display: "flex",
+        flexDirection: "column",
+        minHeight: "100vh",
+        background: "#fff",
+        fontFamily: "Arial, sans-serif",
+        color: "#333",
+      }}
+    >
+      <SiteHeader subtitle="Privacy Policy" />
+      <div
+        className="container"
+        style={{
+          maxWidth: 800,
+          width: "100%",
+          margin: "auto",
+          padding: "40px 20px",
+          lineHeight: 1.6,
+          boxSizing: "border-box",
+          flex: 1,
+        }}
+      >
+        <h1 style={{ color: "#111", marginBottom: 10 }}>Privacy Policy</h1>
       <p className="updated" style={{ fontSize: 14, color: "#777", marginBottom: 30 }}>
         Last updated: April 30, 2026
       </p>
@@ -79,12 +93,14 @@ export default function PrivacyPolicyPage() {
         We may update this Privacy Policy from time to time. Changes will be posted on this page.
       </p>
 
-      <h2 style={{ color: "#111" }}>10. Contact Us</h2>
-      <p>
-        If you have any questions about this Privacy Policy, please contact us at:
-        <br />
-        <strong>email@example.com</strong>
-      </p>
+        <h2 style={{ color: "#111" }}>10. Contact Us</h2>
+        <p>
+          If you have any questions about this Privacy Policy, please contact us at:
+          <br />
+          <strong>vichaikhg@gmail.com</strong>
+        </p>
+      </div>
+      <SiteFooter />
     </div>
   );
 }
