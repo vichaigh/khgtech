@@ -23,14 +23,14 @@ export default function SiteFooter() {
         }}
       >
         <a
-          href="/tiktok-privacy-policy"
+          href="/privacy-policy"
           style={{ color: "#fff", textDecoration: "none" }}
         >
           Privacy Policy
         </a>
         <span style={{ color: "#555" }}>|</span>
         <a
-          href="/tiktok-terms-of-service"
+          href="/terms-of-service"
           style={{ color: "#fff", textDecoration: "none" }}
         >
           Terms of Service
