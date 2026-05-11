@@ -1,6 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
+import AppShell from "../components/AppShell";
 
 export default function TikTokCallbackPage() {
   const [code, setCode] = useState<string | null>(null);
@@ -52,161 +53,112 @@ export default function TikTokCallbackPage() {
     }
   };
 
+  const inputClass =
+    "w-full rounded-md border border-gray-700 bg-gray-950 px-3 py-2 text-xs text-white focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
+
   return (
-    <div
-      style={{
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        backgroundColor: "#f4f4f9",
-        minHeight: "100vh",
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        color: "#333",
-      }}
-    >
-      <div
-        style={{
-          background: "#fff",
-          borderRadius: 10,
-          boxShadow: "0 2px 12px rgba(0,0,0,0.07)",
-          padding: 40,
-          maxWidth: 440,
-          width: "100%",
-          textAlign: "center",
-        }}
-      >
-        <h1 style={{ fontSize: 28, marginBottom: 10, letterSpacing: "1px" }}>
-          TikTok Callback
-        </h1>
+    <AppShell>
+      <div className="flex flex-1 items-center justify-center px-6 py-12">
+        <div className="w-full max-w-md rounded-2xl border border-gray-800 bg-gray-900 p-8 text-center text-gray-300">
+          <h1 className="mb-4 text-2xl font-bold tracking-wide text-white">
+            TikTok Callback
+          </h1>
 
-        {mounted && code && (
-          <div style={{ display: "flex", justifyContent: "center", gap: 6, marginBottom: 16 }}>
-            {[...Array(3)].map((_, i) => (
-              <span
-                key={i}
-                style={{
-                  display: "inline-flex",
-                  alignItems: "center",
-                  justifyContent: "center",
-                  width: 28,
-                  height: 28,
-                  borderRadius: "50%",
-                  background: "#22c55e",
-                  color: "#fff",
-                  fontSize: 16,
-                  fontWeight: "bold",
-                }}
-              >
-                ✓
-              </span>
-            ))}
-          </div>
-        )}
-
-        <div style={{ marginBottom: 20, wordBreak: "break-all", textAlign: "left" }}>
-          {mounted && (
-            code ? (
-              <div>
-                <div style={{ marginBottom: 8 }}>Received code from TikTok:</div>
-                <div
-                  style={{
-                    background: "#f4f4f9",
-                    borderRadius: 5,
-                    padding: "8px 10px",
-                    fontSize: 13,
-                    wordBreak: "break-all",
-                    marginBottom: 8,
-                    display: "flex",
-                    alignItems: "center",
-                  }}
+          {mounted && code && (
+            <div className="mb-4 flex justify-center gap-1.5">
+              {[...Array(3)].map((_, i) => (
+                <span
+                  key={i}
+                  className="inline-flex h-7 w-7 items-center justify-center rounded-full bg-green-600 text-sm font-bold text-white"
                 >
-                  <span style={{ flex: 1 }}>{code}</span>
-                  <button
-                    onClick={handleCopy}
-                    style={{
-                      marginLeft: 10,
-                      padding: "2px 10px",
-                      fontSize: 13,
-                      border: "1px solid #ccc",
-                      background: "#f7f7fa",
-                      borderRadius: 4,
-                      cursor: "pointer",
-                    }}
-                    title="Copy code to clipboard"
-                  >
-                    Copy
-                  </button>
-                </div>
+                  ✓
+                </span>
+              ))}
+            </div>
+          )}
 
-                {/* Token exchange */}
-                <div style={{ borderTop: "1px solid #eee", marginTop: 16, paddingTop: 16 }}>
-                  <div style={{ fontWeight: 600, marginBottom: 8, fontSize: 14 }}>Exchange for Access Token</div>
-                  <div style={{ fontSize: 12, color: "#888", marginBottom: 10 }}>
-                    Redirect URI used during auth:
+          <div className="mb-6 text-left text-sm">
+            {mounted &&
+              (code ? (
+                <div>
+                  <div className="mb-2 text-gray-400">
+                    Received code from TikTok:
                   </div>
-                  <input
-                    type="text"
-                    value={redirectUri}
-                    onChange={e => setRedirectUri(e.target.value)}
-                    style={{ width: "100%", padding: "6px 8px", borderRadius: 4, border: "1px solid #ccc", fontSize: 12, boxSizing: "border-box", marginBottom: 10 }}
-                  />
-                  <button
-                    onClick={handleExchangeToken}
-                    disabled={tokenLoading}
-                    style={{
-                      width: "100%",
-                      padding: "8px 0",
-                      background: "#000",
-                      color: "#fff",
-                      border: "none",
-                      borderRadius: 5,
-                      fontSize: 14,
-                      fontWeight: 600,
-                      cursor: tokenLoading ? "not-allowed" : "pointer",
-                      opacity: tokenLoading ? 0.7 : 1,
-                    }}
-                  >
-                    {tokenLoading ? "Exchanging..." : "Get Access Token"}
-                  </button>
-                </div>
-
-                {tokenResult && (
-                  <div style={{ marginTop: 12, display: "flex", alignItems: "center", gap: 8 }}>
-                    <span style={{ color: "#1a7f37", fontWeight: 600, fontSize: 14 }}>Token exchange successful</span>
-                    <button onClick={handleCopyToken} style={{ fontSize: 12, padding: "2px 8px", border: "1px solid #ccc", borderRadius: 4, cursor: "pointer", background: "#f7f7fa" }}>
-                      Copy Token
+                  <div className="mb-3 flex items-center gap-2 rounded-md bg-black/40 p-2">
+                    <span className="flex-1 break-all font-mono text-xs text-gray-300">
+                      {code}
+                    </span>
+                    <button
+                      type="button"
+                      onClick={handleCopy}
+                      title="Copy code to clipboard"
+                      className="shrink-0 rounded border border-gray-600 bg-gray-800 px-2 py-1 text-xs text-white hover:bg-gray-700"
+                    >
+                      Copy
                     </button>
                   </div>
-                )}
-                {tokenError && (
-                  <div style={{ marginTop: 10, color: "#c00", fontSize: 13 }}>Error: {tokenError}</div>
-                )}
-              </div>
-            ) : (
-              <>No code parameter found in TikTok callback.</>
-            )
-          )}
-        </div>
 
-        <p style={{ fontSize: 13, color: "#888" }}>
-          If you are not redirected automatically, please close this window.
-        </p>
-        <a
-          href="/"
-          style={{
-            display: "inline-block",
-            marginTop: 16,
-            padding: "8px 24px",
-            background: "#333",
-            color: "#fff",
-            borderRadius: 6,
-            fontSize: 14,
-            textDecoration: "none",
-          }}
-        >
-          Back Home
-        </a>
+                  <div className="mt-5 border-t border-gray-800 pt-5">
+                    <div className="mb-2 font-semibold text-white">
+                      Exchange for Access Token
+                    </div>
+                    <div className="mb-2 text-xs text-gray-500">
+                      Redirect URI used during auth:
+                    </div>
+                    <input
+                      type="text"
+                      value={redirectUri}
+                      onChange={(e) => setRedirectUri(e.target.value)}
+                      className={`${inputClass} mb-3`}
+                    />
+                    <button
+                      type="button"
+                      onClick={handleExchangeToken}
+                      disabled={tokenLoading}
+                      className="w-full rounded-lg bg-white py-2.5 text-sm font-semibold text-black disabled:cursor-not-allowed disabled:opacity-60"
+                    >
+                      {tokenLoading ? "Exchanging..." : "Get Access Token"}
+                    </button>
+                  </div>
+
+                  {tokenResult && (
+                    <div className="mt-3 flex items-center gap-2">
+                      <span className="text-sm font-semibold text-green-400">
+                        Token exchange successful
+                      </span>
+                      <button
+                        type="button"
+                        onClick={handleCopyToken}
+                        className="rounded border border-gray-600 bg-gray-800 px-2 py-0.5 text-xs text-white hover:bg-gray-700"
+                      >
+                        Copy Token
+                      </button>
+                    </div>
+                  )}
+                  {tokenError && (
+                    <div className="mt-3 text-sm text-red-400">
+                      Error: {tokenError}
+                    </div>
+                  )}
+                </div>
+              ) : (
+                <p className="text-gray-400">
+                  No code parameter found in TikTok callback.
+                </p>
+              ))}
+          </div>
+
+          <p className="text-sm text-gray-500">
+            If you are not redirected automatically, please close this window.
+          </p>
+          <a
+            href="/"
+            className="mt-6 inline-block rounded-lg bg-gray-800 px-6 py-2.5 text-sm font-medium text-white hover:bg-gray-700"
+          >
+            Back Home
+          </a>
+        </div>
       </div>
-    </div>
+    </AppShell>
   );
 }

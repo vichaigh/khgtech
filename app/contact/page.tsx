@@ -1,108 +1,66 @@
 import type { Metadata } from "next";
-import React from "react";
-import SiteFooter from "../components/SiteFooter";
-import SiteHeader from "../components/SiteHeader";
+import AppShell from "../components/AppShell";
 
 export const metadata: Metadata = {
-  title: "Contact | KHG Tech",
+  title: "Contact | crmapp",
   description:
-    "Get in touch with KHG Tech. Contact us by email for CRM, TikTok Ads integration, and TikTok content posting inquiries.",
+    "Get in touch with crmapp. Contact us by email for CRM, TikTok integration, and content posting inquiries.",
   robots: "index, follow",
 };
 
 export default function ContactPage() {
   return (
-    <div
-      style={{
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        backgroundColor: "#f4f4f9",
-        color: "#333",
-        minHeight: "100vh",
-        lineHeight: 1.6,
-      }}
-    >
-      <SiteHeader subtitle="We'd love to hear from you" />
+    <AppShell>
+      <div className="mx-auto max-w-3xl px-6 py-12">
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8 text-gray-300">
+          <h1 className="mb-2 text-3xl font-bold text-white">Contact</h1>
+          <p className="mb-8 text-sm text-gray-500">
+            We&apos;d love to hear from you
+          </p>
 
-      <main
-        style={{
-          maxWidth: 800,
-          margin: "40px auto",
-          padding: "0 20px",
-        }}
-      >
-        <section
-          style={{
-            background: "#fff",
-            borderRadius: 8,
-            boxShadow: "0 2px 10px rgba(0, 0, 0, 0.05)",
-            padding: 30,
-          }}
-        >
-          <h2
-            style={{
-              marginTop: 0,
-              color: "#1a1a1a",
-              fontSize: "1.5rem",
-              borderBottom: "2px solid #f0f0f0",
-              paddingBottom: 10,
-              display: "inline-block",
-            }}
-          >
-            Get in Touch
-          </h2>
-
-          <p style={{ margin: "16px 0" }}>
-            Have a question about KHG Tech, our CRM platform, or our TikTok
+          <h2 className="mb-4 text-xl font-semibold text-white">Get in Touch</h2>
+          <p className="mb-6">
+            Have a question about crmapp, our CRM platform, or our TikTok
             integration? Reach out using the details below and we&apos;ll get
             back to you as soon as possible.
           </p>
 
-          <div style={{ marginTop: 24 }}>
-            <p style={{ margin: "10px 0" }}>
-              <strong>Email:</strong>{" "}
+          <div className="space-y-3">
+            <p>
+              <strong className="text-white">Email:</strong>{" "}
               <a
                 href="mailto:vichaikhg@gmail.com"
-                style={{ color: "#0070f3", textDecoration: "none" }}
+                className="text-gray-200 underline decoration-gray-600 underline-offset-2 hover:text-white"
               >
                 vichaikhg@gmail.com
               </a>
             </p>
-            <p style={{ margin: "10px 0" }}>
-              <strong>Location:</strong> Cambodia
+            <p>
+              <strong className="text-white">Location:</strong> Cambodia
             </p>
-            <p style={{ margin: "10px 0" }}>
-              <strong>Website:</strong>{" "}
+            <p>
+              <strong className="text-white">Website:</strong>{" "}
               <a
                 href="https://khgtech.vip"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{ color: "#0070f3", textDecoration: "none" }}
+                className="text-gray-200 underline decoration-gray-600 underline-offset-2 hover:text-white"
               >
                 https://khgtech.vip
               </a>
             </p>
           </div>
 
-          <div style={{ marginTop: 32 }}>
+          <div className="mt-8">
             <a
               href="/"
-              style={{
-                display: "inline-block",
-                padding: "10px 20px",
-                backgroundColor: "#000",
-                color: "#fff",
-                borderRadius: 6,
-                textDecoration: "none",
-                fontSize: "0.95rem",
-              }}
+              className="inline-block rounded-lg bg-gray-800 px-5 py-2.5 text-sm font-medium text-white hover:bg-gray-700"
             >
               ← Back to Home
             </a>
           </div>
-        </section>
-      </main>
-
-      <SiteFooter />
-    </div>
+        </div>
+      </div>
+    </AppShell>
   );
 }

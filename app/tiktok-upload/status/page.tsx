@@ -1,25 +1,12 @@
 "use client";
 
 import { useState } from "react";
-import SiteHeader from "../../components/SiteHeader";
-import SiteFooter from "../../components/SiteFooter";
+import AppShell from "../../components/AppShell";
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "8px 10px",
-  borderRadius: 5,
-  border: "1px solid #ccc",
-  fontSize: 14,
-  boxSizing: "border-box",
-  marginTop: 4,
-};
+const inputClass =
+  "mt-1 w-full rounded-md border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
 
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontWeight: 600,
-  marginBottom: 14,
-  fontSize: 14,
-};
+const labelClass = "mb-4 block text-sm font-semibold text-gray-200";
 
 export default function PostStatusPage() {
   const [publishId, setPublishId] = useState("");
@@ -52,43 +39,56 @@ export default function PostStatusPage() {
   };
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", backgroundColor: "#f4f4f9", minHeight: "100vh", color: "#333" }}>
-      <SiteHeader subtitle="Check TikTok Post Status" />
-      <main style={{ maxWidth: 620, margin: "40px auto", padding: "0 20px" }}>
-        <div style={{ background: "#fff", borderRadius: 10, boxShadow: "0 2px 12px rgba(0,0,0,0.07)", padding: 36 }}>
-          <h2 style={{ marginTop: 0, marginBottom: 8, fontSize: 22 }}>Check Post Status</h2>
-          <p style={{ color: "#888", fontSize: 13, marginBottom: 24 }}>
-            Enter the <code>publish_id</code> returned from a video or photo upload to check its current status.
+    <AppShell>
+      <div className="mx-auto max-w-2xl px-6 py-12 text-gray-300">
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8">
+          <h1 className="mb-2 text-2xl font-bold text-white">Check Post Status</h1>
+          <p className="mb-6 text-sm text-gray-500">
+            Enter the{" "}
+            <code className="rounded bg-black/40 px-1 text-gray-300">
+              publish_id
+            </code>{" "}
+            returned from a video or photo upload to check its current status.
           </p>
           <form onSubmit={handleSubmit}>
-            <label style={labelStyle}>
+            <label className={labelClass}>
               Publish ID
-              <input style={inputStyle} value={publishId} onChange={e => setPublishId(e.target.value)} required placeholder="e.g. v_pub_url~v12345..." />
+              <input
+                className={inputClass}
+                value={publishId}
+                onChange={(e) => setPublishId(e.target.value)}
+                required
+                placeholder="e.g. v_pub_url~v12345..."
+              />
             </label>
             <button
               type="submit"
               disabled={loading}
-              style={{ width: "100%", padding: "10px 0", background: "#5a3ea1", color: "#fff", border: "none", borderRadius: 6, fontSize: 15, fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}
+              className="w-full rounded-lg bg-violet-700 py-2.5 text-sm font-semibold text-white hover:bg-violet-600 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Checking..." : "Check Status"}
             </button>
           </form>
           {result && (
-            <pre style={{ marginTop: 20, background: "#f4f4f9", borderRadius: 6, padding: 14, fontSize: 13, overflow: "auto", whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
+            <pre className="mt-6 overflow-auto whitespace-pre-wrap break-all rounded-lg bg-black/40 p-4 text-xs text-gray-300">
               {result}
             </pre>
           )}
           {error && (
-            <div style={{ marginTop: 16, color: "#c00", fontSize: 14 }}>
+            <div className="mt-4 text-sm text-red-400">
               {error}
               {error.includes("Connect TikTok") && (
-                <> <a href="/tiktok-connect" style={{ color: "#5a3ea1" }}>Connect now →</a></>
+                <>
+                  {" "}
+                  <a href="/tiktok-connect" className="text-violet-300 underline">
+                    Connect now →
+                  </a>
+                </>
               )}
             </div>
           )}
         </div>
-      </main>
-      <SiteFooter />
-    </div>
+      </div>
+    </AppShell>
   );
 }

@@ -1,31 +1,25 @@
 "use client";
 
 import { useState } from "react";
-import SiteHeader from "../../components/SiteHeader";
-import SiteFooter from "../../components/SiteFooter";
+import AppShell from "../../components/AppShell";
 
-const inputStyle: React.CSSProperties = {
-  width: "100%",
-  padding: "8px 10px",
-  borderRadius: 5,
-  border: "1px solid #ccc",
-  fontSize: 14,
-  boxSizing: "border-box",
-  marginTop: 4,
-};
+const inputClass =
+  "mt-1 w-full rounded-md border border-gray-700 bg-gray-950 px-3 py-2 text-sm text-white placeholder:text-gray-500 focus:border-gray-500 focus:outline-none focus:ring-1 focus:ring-gray-500";
 
-const labelStyle: React.CSSProperties = {
-  display: "block",
-  fontWeight: 600,
-  marginBottom: 14,
-  fontSize: 14,
-};
+const labelClass = "mb-4 block text-sm font-semibold text-gray-200";
 
-const PRIVACY_OPTIONS = ["SELF_ONLY", "PUBLIC_TO_EVERYONE", "MUTUAL_FOLLOW_FRIENDS", "FOLLOWER_OF_CREATOR"];
+const PRIVACY_OPTIONS = [
+  "SELF_ONLY",
+  "PUBLIC_TO_EVERYONE",
+  "MUTUAL_FOLLOW_FRIENDS",
+  "FOLLOWER_OF_CREATOR",
+];
 
 export default function UploadPhotoPage() {
   const [title, setTitle] = useState("funny cat");
-  const [description, setDescription] = useState("this will be a #funny photomode on your @tiktok #fyp");
+  const [description, setDescription] = useState(
+    "this will be a #funny photomode on your @tiktok #fyp"
+  );
   const [privacyLevel, setPrivacyLevel] = useState("SELF_ONLY");
   const [autoAddMusic, setAutoAddMusic] = useState(true);
   const [disableComment, setDisableComment] = useState(true);
@@ -40,7 +34,10 @@ export default function UploadPhotoPage() {
     setResult(null);
     setError(null);
     setLoading(true);
-    const images = photoUrls.split("\n").map(u => u.trim()).filter(Boolean);
+    const images = photoUrls
+      .split("\n")
+      .map((u) => u.trim())
+      .filter(Boolean);
     try {
       const res = await fetch("/api/tiktok/publish-photo", {
         method: "POST",
@@ -76,74 +73,113 @@ export default function UploadPhotoPage() {
   };
 
   return (
-    <div style={{ fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif", backgroundColor: "#f4f4f9", minHeight: "100vh", color: "#333" }}>
-      <SiteHeader subtitle="Upload Photo to TikTok" />
-      <main style={{ maxWidth: 620, margin: "40px auto", padding: "0 20px" }}>
-        <div style={{ background: "#fff", borderRadius: 10, boxShadow: "0 2px 12px rgba(0,0,0,0.07)", padding: 36 }}>
-          <h2 style={{ marginTop: 0, marginBottom: 24, fontSize: 22 }}>Publish Photo</h2>
+    <AppShell>
+      <div className="mx-auto max-w-2xl px-6 py-12 text-gray-300">
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8">
+          <h1 className="mb-6 text-2xl font-bold text-white">Publish Photo</h1>
           <form onSubmit={handleSubmit}>
-            <label style={labelStyle}>
+            <label className={labelClass}>
               Title
-              <input style={inputStyle} value={title} onChange={e => setTitle(e.target.value)} required />
+              <input
+                className={inputClass}
+                value={title}
+                onChange={(e) => setTitle(e.target.value)}
+                required
+              />
             </label>
-            <label style={labelStyle}>
+            <label className={labelClass}>
               Description
-              <input style={inputStyle} value={description} onChange={e => setDescription(e.target.value)} />
+              <input
+                className={inputClass}
+                value={description}
+                onChange={(e) => setDescription(e.target.value)}
+              />
             </label>
-            <label style={labelStyle}>
+            <label className={labelClass}>
               Privacy Level
-              <select style={inputStyle} value={privacyLevel} onChange={e => setPrivacyLevel(e.target.value)}>
-                {PRIVACY_OPTIONS.map(opt => (
-                  <option key={opt} value={opt}>{opt}</option>
+              <select
+                className={inputClass}
+                value={privacyLevel}
+                onChange={(e) => setPrivacyLevel(e.target.value)}
+              >
+                {PRIVACY_OPTIONS.map((opt) => (
+                  <option key={opt} value={opt}>
+                    {opt}
+                  </option>
                 ))}
               </select>
             </label>
-            <label style={labelStyle}>
-              Photo Image URLs <span style={{ fontWeight: 400, color: "#888" }}>(one per line)</span>
+            <label className={labelClass}>
+              Photo Image URLs{" "}
+              <span className="font-normal text-gray-500">(one per line)</span>
               <textarea
-                style={{ ...inputStyle, minHeight: 90, resize: "vertical" }}
+                className={`${inputClass} min-h-[90px] resize-y`}
                 value={photoUrls}
-                onChange={e => setPhotoUrls(e.target.value)}
+                onChange={(e) => setPhotoUrls(e.target.value)}
                 required
-                placeholder={"https://example.com/image1.jpg\nhttps://example.com/image2.jpg"}
+                placeholder={
+                  "https://example.com/image1.jpg\nhttps://example.com/image2.jpg"
+                }
               />
             </label>
-            <label style={labelStyle}>
+            <label className={labelClass}>
               Cover Image Index
-              <input style={inputStyle} type="number" min={0} value={coverIndex} onChange={e => setCoverIndex(Number(e.target.value))} />
+              <input
+                className={inputClass}
+                type="number"
+                min={0}
+                value={coverIndex}
+                onChange={(e) => setCoverIndex(Number(e.target.value))}
+              />
             </label>
-            <div style={{ display: "flex", gap: 20, flexWrap: "wrap", marginBottom: 18 }}>
-              <label style={{ fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
-                <input type="checkbox" checked={disableComment} onChange={e => setDisableComment(e.target.checked)} /> Disable Comment
+            <div className="mb-4 flex flex-wrap gap-5 text-sm text-gray-300">
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={disableComment}
+                  onChange={(e) => setDisableComment(e.target.checked)}
+                  className="rounded border-gray-600 bg-gray-950"
+                />{" "}
+                Disable Comment
               </label>
-              <label style={{ fontSize: 14, display: "flex", alignItems: "center", gap: 6 }}>
-                <input type="checkbox" checked={autoAddMusic} onChange={e => setAutoAddMusic(e.target.checked)} /> Auto Add Music
+              <label className="flex cursor-pointer items-center gap-2">
+                <input
+                  type="checkbox"
+                  checked={autoAddMusic}
+                  onChange={(e) => setAutoAddMusic(e.target.checked)}
+                  className="rounded border-gray-600 bg-gray-950"
+                />{" "}
+                Auto Add Music
               </label>
             </div>
             <button
               type="submit"
               disabled={loading}
-              style={{ width: "100%", padding: "10px 0", background: "#1d6fa5", color: "#fff", border: "none", borderRadius: 6, fontSize: 15, fontWeight: 600, cursor: loading ? "not-allowed" : "pointer", opacity: loading ? 0.7 : 1 }}
+              className="w-full rounded-lg bg-sky-700 py-2.5 text-sm font-semibold text-white hover:bg-sky-600 disabled:cursor-not-allowed disabled:opacity-60"
             >
               {loading ? "Submitting..." : "Publish Photo"}
             </button>
           </form>
           {result && (
-            <pre style={{ marginTop: 20, background: "#f4f4f9", borderRadius: 6, padding: 14, fontSize: 13, overflow: "auto", whiteSpace: "pre-wrap", wordBreak: "break-all" }}>
+            <pre className="mt-6 overflow-auto whitespace-pre-wrap break-all rounded-lg bg-black/40 p-4 text-xs text-gray-300">
               {result}
             </pre>
           )}
           {error && (
-            <div style={{ marginTop: 16, color: "#c00", fontSize: 14 }}>
+            <div className="mt-4 text-sm text-red-400">
               {error}
               {error.includes("Connect TikTok") && (
-                <> <a href="/tiktok-connect" style={{ color: "#1d6fa5" }}>Connect now →</a></>
+                <>
+                  {" "}
+                  <a href="/tiktok-connect" className="text-sky-300 underline">
+                    Connect now →
+                  </a>
+                </>
               )}
             </div>
           )}
         </div>
-      </main>
-      <SiteFooter />
-    </div>
+      </div>
+    </AppShell>
   );
 }

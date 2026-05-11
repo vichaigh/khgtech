@@ -1,172 +1,86 @@
 import type { Metadata } from "next";
-import SiteFooter from "./components/SiteFooter";
-import SiteHeader from "./components/SiteHeader";
+import AppShell from "./components/AppShell";
 
 export const metadata: Metadata = {
-  title: "KHG Tech | CRM, TikTok Ads & Content Posting Platform",
+  title: "crmapp",
   description:
-    "KHG Tech is a CRM and marketing automation platform for TikTok Ads integration, campaign management, lead synchronization, analytics, and TikTok content posting.",
+    "crmapp is a CRM and TikTok marketing automation platform for campaign management, lead synchronization, analytics, and content posting.",
   keywords: [
+    "crmapp",
     "CRM",
-    "TikTok",
+    "TikTok Marketing",
     "TikTok Ads",
-    "TikTok Content Posting",
-    "Marketing API",
+    "Content Posting",
     "Campaign Management",
     "Lead Management",
-    "Automation",
+    "Marketing Automation",
   ],
-  authors: [{ name: "KHG Tech", url: "https://khgtech.vip" }],
+  authors: [{ name: "crmapp", url: "https://khgtech.vip" }],
   robots: "index, follow",
   icons: {
     icon: "/favicon.ico",
   },
 };
 
-const cardStyle = {
-  background: "#fff",
-  borderRadius: 8,
-  boxShadow: "0 2px 10px rgba(0, 0, 0, 0.05)",
-  padding: 30,
-  marginBottom: 25,
-};
-
-const headingStyle = {
-  marginTop: 0,
-  color: "#1a1a1a",
-  fontSize: "1.5rem",
-  borderBottom: "2px solid #f0f0f0",
-  paddingBottom: 10,
-  display: "inline-block",
-};
-
-export default function Home() {
+export default function HomePage() {
   return (
-    <div
-      style={{
-        fontFamily: "'Segoe UI', Tahoma, Geneva, Verdana, sans-serif",
-        backgroundColor: "#f4f4f9",
-        margin: 0,
-        padding: 0,
-        color: "#333",
-        minHeight: "100vh",
-        lineHeight: 1.6,
-      }}
-    >
-      <SiteHeader />
+    <AppShell>
+      {/* Hero Section */}
+      <section className="mx-auto flex max-w-7xl flex-col items-center justify-center px-6 py-24 text-center">
+        <h2 className="mb-6 text-5xl font-bold leading-tight">crmapp</h2>
 
-      <main
-        style={{
-          maxWidth: 860,
-          margin: "40px auto",
-          padding: "0 20px",
-        }}
-      >
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>About Us</h2>
-          <p>
-            KHG Tech is a software company focused on building CRM, marketing
-            automation, TikTok Ads integration, and TikTok content posting
-            solutions. We help businesses manage customer relationships,
-            advertising campaigns, leads, reports, and social media workflows in
-            one platform.
-          </p>
-        </section>
+        <p className="mb-10 max-w-3xl text-lg text-gray-300">
+          crmapp is a CRM and TikTok marketing automation platform designed for
+          campaign management, lead synchronization, analytics, and TikTok
+          content posting.
+        </p>
 
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>Our Product</h2>
-          <p>
-            Our CRM platform integrates with TikTok Ads and TikTok account
-            authorization to help businesses create, manage, analyze, and
-            optimize advertising campaigns. The platform also supports
-            user-authorized TikTok video upload and publishing workflows.
-          </p>
-        </section>
+        <div className="flex flex-wrap justify-center gap-4">
+          <a
+            href="/privacy-policy"
+            className="rounded-lg border border-white px-6 py-3 text-sm font-medium hover:bg-white hover:text-black"
+          >
+            Privacy Policy
+          </a>
 
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>Services</h2>
-          <ul style={{ paddingLeft: 20 }}>
-            <li style={{ marginBottom: 8 }}>TikTok Ads campaign management</li>
-            <li style={{ marginBottom: 8 }}>Lead management and synchronization</li>
-            <li style={{ marginBottom: 8 }}>Analytics and reporting dashboard</li>
-            <li style={{ marginBottom: 8 }}>Audience targeting and optimization</li>
-            <li style={{ marginBottom: 8 }}>TikTok account connection with Login Kit</li>
-            <li style={{ marginBottom: 8 }}>User-authorized TikTok video upload and publishing</li>
-          </ul>
-        </section>
+          <a
+            href="/terms-of-service"
+            className="rounded-lg border border-white px-6 py-3 text-sm font-medium hover:bg-white hover:text-black"
+          >
+            Terms of Service
+          </a>
+        </div>
+      </section>
 
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>TikTok Content Posting</h2>
-          <p>
-            KHG Tech allows authorized TikTok users to connect their TikTok
-            account and upload or publish videos from our platform. Users must
-            log in with TikTok and grant permission before any video is uploaded
-            or published. Users control which videos are submitted to TikTok.
-          </p>
-          <p>
-            We use the Content Posting API only for user-initiated video posting
-            actions. We do not post content without the user&apos;s authorization.
-          </p>
-        </section>
+      {/* Features */}
+      <section className="mx-auto grid max-w-7xl gap-6 px-6 pb-24 md:grid-cols-3">
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6">
+          <h3 className="mb-3 text-xl font-semibold">TikTok Ads Integration</h3>
 
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>How We Use TikTok APIs</h2>
-          <p>
-            We use TikTok Marketing API to automate campaign creation, monitor
-            campaign performance, and synchronize lead data into our CRM system.
+          <p className="text-gray-400">
+            Connect and manage TikTok advertising campaigns directly from
+            crmapp.
           </p>
-          <p>
-            We use TikTok Login Kit to authenticate TikTok users and verify the
-            connected TikTok account. We use the Content Posting API to upload or
-            publish videos only after the user grants permission and starts the
-            posting action from our platform.
-          </p>
-        </section>
+        </div>
 
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>Privacy Policy</h2>
-          <p>
-            We respect user privacy and do not sell or share personal data with
-            third parties. Data collected through TikTok APIs is used only for CRM
-            functionality, campaign management, reporting, lead synchronization,
-            account connection, and user-authorized TikTok content posting.
-          </p>
-          <p>
-            Users can contact us to request account disconnection or data removal
-            related to their TikTok integration.
-          </p>
-        </section>
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6">
+          <h3 className="mb-3 text-xl font-semibold">Lead Synchronization</h3>
 
-        <section style={cardStyle}>
-          <h2 style={headingStyle}>Terms of Service</h2>
-          <p>
-            By using KHG Tech, users agree to use the platform only for lawful
-            business, marketing, CRM, advertising, and content management
-            purposes. Users are responsible for ensuring that all uploaded or
-            published content complies with TikTok&apos;s policies and applicable laws.
+          <p className="text-gray-400">
+            Automatically synchronize leads and customer data into your CRM
+            workflows.
           </p>
-        </section>
+        </div>
 
-        <section id="contact" style={cardStyle}>
-          <h2 style={headingStyle}>Contact</h2>
-          <div>
-            <p style={{ margin: "5px 0" }}>
-              <strong>Email:</strong> vichaikhg@gmail.com
-            </p>
-            {/* <p style={{ margin: "5px 0" }}>
-              <strong>Company:</strong> KHG Tech
-            </p> */}
-            <p style={{ margin: "5px 0" }}>
-              <strong>Location:</strong> Cambodia
-            </p>
-            <p style={{ margin: "5px 0" }}>
-              <strong>Website:</strong> https://khgtech.vip
-            </p>
-          </div>
-        </section>
-      </main>
+        <div className="rounded-2xl border border-gray-800 bg-gray-900 p-6">
+          <h3 className="mb-3 text-xl font-semibold">Content Posting</h3>
 
-      <SiteFooter />
-    </div>
+          <p className="text-gray-400">
+            Schedule and publish TikTok content with analytics and automation
+            support.
+          </p>
+        </div>
+      </section>
+    </AppShell>
   );
 }
