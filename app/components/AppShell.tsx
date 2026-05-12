@@ -11,8 +11,8 @@ export default function AppShell({ children }: AppShellProps) {
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-4 lg:flex-row lg:items-center lg:justify-between">
           <div>
             <img
-              src="/crmapp-logo.png"
-              alt="crmapp logo"
+              src="/khgtech-logo.png"
+              alt="khgtech logo"
               className="h-20 w-auto"
             />
       
@@ -94,7 +94,7 @@ export default function AppShell({ children }: AppShellProps) {
 
       <footer className="border-t border-gray-800">
         <div className="mx-auto flex max-w-7xl flex-col gap-4 px-6 py-8 text-sm text-gray-500 md:flex-row md:items-center md:justify-between">
-          <div>© 2026 crmapp. All rights reserved.</div>
+          <div>© 2026 khgtech. All rights reserved.</div>
 
           <div className="flex gap-6">
             <a href="/privacy-policy" className="hover:text-gray-300">

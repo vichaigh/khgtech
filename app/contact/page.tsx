@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import AppShell from "../components/AppShell";
 
 export const metadata: Metadata = {
-  title: "Contact | crmapp",
+  title: "Contact | khgtech",
   description:
-    "Get in touch with crmapp. Contact us by email for CRM, TikTok integration, and content posting inquiries.",
+    "Get in touch with khgtech. Contact us by email for CRM, TikTok integration, and content posting inquiries.",
   robots: "index, follow",
 };
 
@@ -20,7 +20,7 @@ export default function ContactPage() {
 
           <h2 className="mb-4 text-xl font-semibold text-white">Get in Touch</h2>
           <p className="mb-6">
-            Have a question about crmapp, our CRM platform, or our TikTok
+            Have a question about khgtech, our CRM platform, or our TikTok
             integration? Reach out using the details below and we&apos;ll get
             back to you as soon as possible.
           </p>

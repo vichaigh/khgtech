@@ -6,14 +6,14 @@ export default function PrivacyPolicyPage() {
       <div className="mx-auto max-w-3xl px-6 py-12 leading-relaxed text-gray-300">
         <div className="rounded-2xl border border-gray-800 bg-gray-900 p-8">
           <h1 className="mb-2 text-3xl font-bold text-white">
-            crmapp Privacy Policy
+          khgtech Privacy Policy
           </h1>
           <p className="mb-8 text-sm text-gray-500">
             Last updated: April 30, 2026
           </p>
 
           <p className="mb-8 text-gray-300">
-            crmapp is a CRM and TikTok marketing automation platform designed for
+            khgtech is a CRM and TikTok marketing automation platform designed for
             campaign management, lead synchronization, analytics, and TikTok content
             posting.
           </p>

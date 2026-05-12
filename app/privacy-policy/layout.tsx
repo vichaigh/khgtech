@@ -1,7 +1,7 @@
 import type { Metadata } from "next";
 
 export const metadata: Metadata = {
-  title: "crmapp Privacy Policy",
+  title: "khgtech Privacy Policy",
 };
 
 export default function PrivacyPolicyLayout({

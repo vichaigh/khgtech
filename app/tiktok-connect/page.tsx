@@ -62,7 +62,7 @@ export default function TikTokConnectPage() {
               Connect to TikTok
             </h1>
             <p className="mt-2 text-sm text-gray-500">
-              Authorize crmapp to publish content on your behalf.
+              Authorize khgtech to publish content on your behalf.
             </p>
           </div>
 

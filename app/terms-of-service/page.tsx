@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import AppShell from "../components/AppShell";
 
 export const metadata: Metadata = {
-  title: "crmapp Terms of Service",
+  title: "khgtech Terms of Service",
 };
 
 export default function Page() {
@@ -18,7 +18,7 @@ export default function Page() {
           </p>
 
           <p className="mb-8 text-gray-300">
-            crmapp is a CRM and TikTok marketing automation platform designed for
+            khgtech is a CRM and TikTok marketing automation platform designed for
             campaign management, lead synchronization, analytics, and TikTok content
             posting.
           </p>

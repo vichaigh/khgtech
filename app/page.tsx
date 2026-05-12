@@ -2,11 +2,11 @@ import type { Metadata } from "next";
 import AppShell from "./components/AppShell";
 
 export const metadata: Metadata = {
-  title: "crmapp",
+  title: "khgtech",
   description:
-    "crmapp is a CRM and TikTok marketing automation platform for campaign management, lead synchronization, analytics, and content posting.",
+    "khgtech is a CRM and TikTok marketing automation platform for campaign management, lead synchronization, analytics, and content posting.",
   keywords: [
-    "crmapp",
+    "khgtech",
     "CRM",
     "TikTok Marketing",
     "TikTok Ads",
@@ -15,7 +15,7 @@ export const metadata: Metadata = {
     "Lead Management",
     "Marketing Automation",
   ],
-  authors: [{ name: "crmapp", url: "https://khgtech.vip" }],
+  authors: [{ name: "khgtech", url: "https://khgtech.vip" }],
   robots: "index, follow",
   icons: {
     icon: "/favicon.ico",
@@ -27,10 +27,10 @@ export default function HomePage() {
     <AppShell>
       {/* Hero Section */}
       <section className="mx-auto flex max-w-7xl flex-col items-center justify-center px-6 py-24 text-center">
-        <h2 className="mb-6 text-5xl font-bold leading-tight">crmapp</h2>
+        <h2 className="mb-6 text-5xl font-bold leading-tight">khgtech</h2>
 
         <p className="mb-10 max-w-3xl text-lg text-gray-300">
-          crmapp is a CRM and TikTok marketing automation platform designed for
+           khgtech is a CRM and TikTok marketing automation platform designed for
           campaign management, lead synchronization, analytics, and TikTok
           content posting.
         </p>
@@ -59,7 +59,7 @@ export default function HomePage() {
 
           <p className="text-gray-400">
             Connect and manage TikTok advertising campaigns directly from
-            crmapp.
+            khgtech.
           </p>
         </div>
 
