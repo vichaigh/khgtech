@@ -19,7 +19,7 @@ export default function TikTokConnectPage() {
   const clientKey = process.env.NEXT_PUBLIC_TIKTOK_CLIENT_KEY ?? "";
 
   useEffect(() => {
-    setRedirectUri(`https://khgtech.vip/tiktok-callback`);
+    setRedirectUri(`https://khgtech.vip/callback`);
   }, []);
 
   const toggleScope = (value: string, required: boolean) => {

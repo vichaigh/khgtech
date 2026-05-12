@@ -14,7 +14,7 @@ export default function TikTokCallbackPage() {
   useEffect(() => {
     const params = new URLSearchParams(window.location.search);
     setCode(params.get("code"));
-    setRedirectUri(`${window.location.origin}/tiktok-callback`);
+    setRedirectUri(`${window.location.origin}/callback`);
     setMounted(true);
   }, []);
 
