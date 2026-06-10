@@ -1,0 +1,118 @@
+.navbar {
+  background: transparent;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  padding: 1.25rem 0;
+  display: flex;
+  align-items: center;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+}
+
+.nav-logo {
+  display: flex;
+  align-items: center;
+  flex-shrink: 0;
+}
+
+.brand-icon {
+  height: 32px;
+  width: auto;
+  flex: 0 0 auto;
+  object-fit: contain;
+}
+
+/* Pill container */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 0.15rem;
+  background: rgba(6, 18, 32, 0.88);
+  border: 1px solid rgba(0, 229, 255, 0.15);
+  border-radius: 50px;
+  padding: 0.35rem 0.4rem;
+  backdrop-filter: blur(14px);
+  list-style: none;
+}
+
+.nav-item {
+  display: flex;
+}
+
+.nav-link {
+  font-weight: 500;
+  font-size: 0.88rem;
+  color: rgba(255, 255, 255, 0.5);
+  transition: color 0.2s ease, background 0.2s ease;
+  padding: 0.42rem 1rem;
+  border-radius: 50px;
+  white-space: nowrap;
+}
+
+.nav-link:hover {
+  color: #00e5ff;
+  background: rgba(0, 229, 255, 0.08);
+}
+
+.nav-link.active {
+  color: #0b0f19;
+  background: #00e5ff;
+}
+
+.menu-icon {
+  display: none;
+  color: #00e5ff;
+  cursor: pointer;
+  z-index: 1001;
+}
+
+/* Responsive */
+@media screen and (max-width: 960px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-menu {
+    flex-direction: column;
+    width: 100%;
+    height: 100vh;
+    position: fixed;
+    top: 0;
+    left: -100%;
+    background: rgba(6, 12, 22, 0.98);
+    backdrop-filter: blur(16px);
+    border-radius: 0;
+    border: none;
+    padding: 0;
+    transition: left 0.35s ease-in-out;
+    justify-content: center;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+
+  .nav-link {
+    font-size: 1.3rem;
+    padding: 0.65rem 2rem;
+    color: rgba(255, 255, 255, 0.6);
+  }
+
+  .nav-link:hover {
+    color: #00e5ff;
+    background: rgba(0, 229, 255, 0.08);
+  }
+
+  .nav-link.active {
+    color: #0b0f19;
+    background: #00e5ff;
+  }
+}

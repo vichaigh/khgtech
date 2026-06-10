@@ -1,0 +1,17 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024">
+  <rect width="1024" height="1024" rx="180" fill="#070707"/>
+  <circle cx="512" cy="390" r="158" fill="#ff8a00"/>
+  <circle cx="512" cy="390" r="104" fill="#ffd66b"/>
+  <g stroke="#ff8a00" stroke-linecap="round" stroke-width="44">
+    <path d="M512 112v96"/>
+    <path d="M512 572v96"/>
+    <path d="M234 390h96"/>
+    <path d="M694 390h96"/>
+    <path d="m316 194 68 68"/>
+    <path d="m640 518 68 68"/>
+    <path d="m708 194-68 68"/>
+    <path d="m384 518-68 68"/>
+  </g>
+  <path fill="#1fb26b" d="M230 710c91-70 190-105 297-105 101 0 188 28 267 83-80 44-169 66-267 66-106 0-205-15-297-44Z"/>
+  <text x="512" y="862" fill="#fff" font-family="Arial, Helvetica, sans-serif" font-size="108" font-weight="800" text-anchor="middle">KHGTECH</text>
+</svg>
