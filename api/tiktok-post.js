@@ -27,11 +27,19 @@ export default async function handler(request, response) {
 
   const {
     mode = 'publish',
-    title = 'SolarKhmer service update',
+    title = 'khgtech service update',
     source = 'PULL_FROM_URL',
     videoUrl,
     videoSize,
     privacyLevel = 'SELF_ONLY',
+    disableComment = true,
+    disableDuet = true,
+    disableStitch = true,
+    brandOrganicToggle = false,
+    brandContentToggle = false,
+    isAigc = false,
+    autoAddMusic = false,
+    mediaType = 'video',
   } = request.body || {};
 
   const usesFileUpload = source === 'FILE_UPLOAD';
@@ -47,14 +55,15 @@ export default async function handler(request, response) {
   if (usesFileUpload && (!Number.isFinite(parsedVideoSize) || parsedVideoSize <= 0)) {
     return response.status(400).json({
       ok: false,
-      error: 'Video file size is required',
+      error: 'Media file size is required',
     });
   }
 
   const isPublish = mode === 'publish';
+  const isPhoto = mediaType === 'photo';
   const endpoint = isPublish
-    ? '/v2/post/publish/video/init/'
-    : '/v2/post/publish/inbox/video/init/';
+    ? (isPhoto ? '/v2/post/publish/photo/init/' : '/v2/post/publish/video/init/')
+    : (isPhoto ? '/v2/post/publish/inbox/photo/init/' : '/v2/post/publish/inbox/video/init/');
   const sourceInfo = usesFileUpload
     ? {
         source: 'FILE_UPLOAD',
@@ -71,10 +80,15 @@ export default async function handler(request, response) {
         post_info: {
           title,
           privacy_level: privacyLevel,
-          disable_duet: true,
-          disable_comment: true,
-          disable_stitch: true,
-          brand_content_toggle: false,
+          disable_duet: Boolean(disableDuet),
+          disable_comment: Boolean(disableComment),
+          disable_stitch: Boolean(disableStitch),
+          brand_organic_toggle: Boolean(brandOrganicToggle),
+          brand_content_toggle: Boolean(brandContentToggle),
+          aigc_info: {
+            aigc_label_type: isAigc ? 'AIGC_GENERIC' : 'UNDISCLOSED',
+          },
+          ...(isPhoto && { auto_add_music: Boolean(autoAddMusic) }),
         },
         source_info: sourceInfo,
       }
@@ -109,8 +123,8 @@ export default async function handler(request, response) {
     publish_id: postData.data?.publish_id,
     upload_url: postData.data?.upload_url,
     message: isPublish
-      ? `Video publish initialized with ${privacyLevel} privacy`
-      : 'Video draft upload initialized',
+      ? `${isPhoto ? 'Photo' : 'Video'} publish initialized with ${privacyLevel} privacy`
+      : `${isPhoto ? 'Photo' : 'Video'} draft upload initialized`,
     data: postData.data,
   });
 }

@@ -1,14 +1,3 @@
-export const mockCreatorInfo = {
-  nickname: 'Creator Name',
-  username: 'creatorname',
-  avatar_url: 'https://placehold.co/160x160/111827/ffffff?text=TK',
-  privacy_level_options: ['PUBLIC_TO_EVERYONE', 'MUTUAL_FOLLOW_FRIENDS', 'SELF_ONLY'],
-  comment_disabled: false,
-  duet_disabled: false,
-  stitch_disabled: true,
-  max_video_post_duration_sec: 600,
-};
-
 const normalizeCreatorInfo = (payload) => {
   const data = payload?.creator || payload?.data || payload;
 
@@ -21,6 +10,8 @@ const normalizeCreatorInfo = (payload) => {
     duet_disabled: Boolean(data.duet_disabled),
     stitch_disabled: Boolean(data.stitch_disabled),
     max_video_post_duration_sec: Number(data.max_video_post_duration_sec || 600),
+    reach_max_post_limit: Boolean(data.reach_max_post_limit),
+    access_token: payload?.access_token || data.access_token || '',
   };
 };
 
@@ -28,6 +19,7 @@ export const fetchTikTokCreatorInfo = async () => {
   const response = await fetch('/api/tiktok-creator', {
     method: 'POST',
     headers: {
+      Accept: 'application/json',
       'Content-Type': 'application/json',
     },
   });
@@ -40,6 +32,37 @@ export const fetchTikTokCreatorInfo = async () => {
   return normalizeCreatorInfo(data);
 };
 
+const readJsonResponse = async (response) => {
+  const text = await response.text();
+
+  if (!text) {
+    return {};
+  }
+
+  try {
+    return JSON.parse(text);
+  } catch {
+    throw new Error(text.slice(0, 160) || `Unexpected response from server (${response.status})`);
+  }
+};
+
+export const fetchTikTokPostStatus = async (publishId) => {
+  const response = await fetch('/api/tiktok-status', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({ publishId }),
+  });
+  const data = await readJsonResponse(response);
+
+  if (!response.ok || data.ok === false) {
+    throw new Error(data.message || data.error || 'Unable to fetch TikTok post status');
+  }
+
+  return data.status;
+};
+
 export const publishTikTokPost = async ({
   file,
   caption,
@@ -47,30 +70,53 @@ export const publishTikTokPost = async ({
   allowComments,
   allowDuet,
   allowStitch,
+  autoAddMusic,
   promotesContent,
   yourBrand,
   brandedContent,
+  isAigc,
   mediaType,
 }) => {
-  const formData = new FormData();
-  formData.append('media', file);
-  formData.append('caption', caption);
-  formData.append('privacy_level', privacyLevel);
-  formData.append('media_type', mediaType);
-  formData.append('disable_comment', String(!allowComments));
-  formData.append('disable_duet', String(!allowDuet));
-  formData.append('disable_stitch', String(!allowStitch));
-  formData.append('brand_organic_toggle', String(promotesContent && yourBrand));
-  formData.append('brand_content_toggle', String(promotesContent && brandedContent));
-
-  const response = await fetch('/api/tiktok/publish', {
+  const response = await fetch('/api/tiktok-post', {
     method: 'POST',
-    body: formData,
+    headers: {
+      'Content-Type': 'application/json',
+    },
+    body: JSON.stringify({
+      mode: 'publish',
+      title: caption,
+      source: 'FILE_UPLOAD',
+      videoSize: file.size,
+      privacyLevel,
+      disableComment: !allowComments,
+      disableDuet: !allowDuet,
+      disableStitch: !allowStitch,
+      autoAddMusic,
+      brandOrganicToggle: promotesContent && yourBrand,
+      brandContentToggle: promotesContent && brandedContent,
+      isAigc,
+      mediaType,
+    }),
   });
-  const data = await response.json();
+  const data = await readJsonResponse(response);
 
   if (!response.ok || data.ok === false) {
     throw new Error(data.message || data.error || 'TikTok publish failed');
+  }
+
+  if (data.upload_url) {
+    const uploadResponse = await fetch(data.upload_url, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': file.type || 'video/mp4',
+        'Content-Range': `bytes 0-${file.size - 1}/${file.size}`,
+      },
+      body: file,
+    });
+
+    if (!uploadResponse.ok) {
+      throw new Error(`TikTok file upload failed with HTTP ${uploadResponse.status}`);
+    }
   }
 
   return data;

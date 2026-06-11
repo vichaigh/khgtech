@@ -21,33 +21,44 @@ export default async function handler(request, response) {
   if (!accessToken) {
     return response.status(401).json({
       ok: false,
-      error: 'Connect TikTok before loading creator information',
+      error: 'Connect TikTok before checking post status',
     });
   }
 
-  const creatorResponse = await fetch(`${TIKTOK_API_BASE}/v2/post/publish/creator_info/query/`, {
+  const { publishId } = request.body || {};
+
+  if (!publishId || typeof publishId !== 'string') {
+    return response.status(400).json({
+      ok: false,
+      error: 'publishId is required',
+    });
+  }
+
+  const statusResponse = await fetch(`${TIKTOK_API_BASE}/v2/post/publish/status/fetch/`, {
     method: 'POST',
     headers: {
       Authorization: `Bearer ${accessToken}`,
       'Content-Type': 'application/json; charset=UTF-8',
     },
+    body: JSON.stringify({
+      publish_id: publishId,
+    }),
   });
+  const statusData = await statusResponse.json();
 
-  const creatorData = await creatorResponse.json();
-
-  if (!creatorResponse.ok || creatorData.error?.code !== 'ok') {
+  if (!statusResponse.ok || statusData.error?.code !== 'ok') {
     return response.status(400).json({
       ok: false,
-      error: creatorData.error?.code || 'TikTok creator info request failed',
-      message: creatorData.error?.message,
-      log_id: creatorData.error?.log_id,
-      data: creatorData.data,
+      error: statusData.error?.code || 'TikTok status request failed',
+      message: statusData.error?.message,
+      log_id: statusData.error?.log_id,
+      data: statusData.data,
     });
   }
 
   return response.status(200).json({
     ok: true,
-    access_token: accessToken,
-    creator: creatorData.data,
+    publish_id: publishId,
+    status: statusData.data,
   });
 }

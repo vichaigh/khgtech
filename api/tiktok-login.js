@@ -1,6 +1,6 @@
 /* global process */
 
-const REDIRECT_URI = 'https://khgtech.vip/callback';
+const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URI || 'https://khgtech.vip/callback';
 const requestedScopes = 'user.info.basic,video.upload,video.publish';
 
 export default async function handler(request, response) {
@@ -12,6 +12,7 @@ export default async function handler(request, response) {
   }
 
   const environment = request.query?.environment === 'sandbox' ? 'sandbox' : 'production';
+  const mode = request.query?.mode === 'code' ? 'code_only' : 'token';
   const clientKey =
     environment === 'sandbox'
       ? process.env.TIKTOK_SANDBOX_CLIENT_KEY || process.env.TIKTOK_CLIENT_KEY
@@ -29,7 +30,7 @@ export default async function handler(request, response) {
   authorizeUrl.searchParams.set('scope', requestedScopes);
   authorizeUrl.searchParams.set('response_type', 'code');
   authorizeUrl.searchParams.set('redirect_uri', REDIRECT_URI);
-  authorizeUrl.searchParams.set('state', `solarkhmer_${environment}`);
+  authorizeUrl.searchParams.set('state', `khgtech_${mode}_${environment}`);
 
   return response.redirect(302, authorizeUrl.toString());
 }

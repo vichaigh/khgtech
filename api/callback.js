@@ -1,3 +1,39 @@
+/* global process */
+
+const TIKTOK_API_BASE = 'https://open.tiktokapis.com';
+const REDIRECT_URI = process.env.TIKTOK_REDIRECT_URI || 'https://khgtech.vip/callback';
+
+const cookieOptions = [
+  'Path=/',
+  'HttpOnly',
+  'Secure',
+  'SameSite=Lax',
+];
+
+const makeCookie = (name, value, maxAgeSeconds) =>
+  `${name}=${encodeURIComponent(value)}; ${[
+    ...cookieOptions,
+    `Max-Age=${maxAgeSeconds}`,
+  ].join('; ')}`;
+
+const getTikTokCredentials = (state = '') => {
+  const isSandbox = String(state).includes('sandbox');
+
+  return {
+    clientKey: isSandbox
+      ? process.env.TIKTOK_SANDBOX_CLIENT_KEY || process.env.TIKTOK_CLIENT_KEY
+      : process.env.TIKTOK_CLIENT_KEY,
+    clientSecret: isSandbox
+      ? process.env.TIKTOK_SANDBOX_CLIENT_SECRET || process.env.TIKTOK_CLIENT_SECRET
+      : process.env.TIKTOK_CLIENT_SECRET,
+  };
+};
+
+const redirectToAuthCodePage = (response, params) => {
+  const query = new URLSearchParams(params);
+  return response.redirect(302, `/tiktok-auth-code?${query.toString()}`);
+};
+
 export default async function handler(request, response) {
   response.setHeader('Cache-Control', 'no-store');
 
@@ -6,134 +42,89 @@ export default async function handler(request, response) {
     return response.status(405).send('Method not allowed');
   }
 
-  const { code, error, error_description: errorDescription } = request.query;
+  const {
+    code,
+    state = '',
+    error,
+    error_description: errorDescription,
+  } = request.query;
+  const isCodeOnlyRequest = String(state).includes('code_only');
 
   if (error) {
-    return response.status(400).send(errorDescription || error);
+    if (isCodeOnlyRequest) {
+      return redirectToAuthCodePage(response, {
+        auth: 'error',
+        message: errorDescription || error,
+        state,
+      });
+    }
+
+    return response.redirect(
+      302,
+      `/contentpost-to-tiktok?auth=error&message=${encodeURIComponent(errorDescription || error)}`,
+    );
   }
 
   if (!code || typeof code !== 'string') {
     return response.redirect(302, '/api/tiktok-login');
   }
 
-  response.setHeader('Content-Type', 'text/html; charset=utf-8');
-  return response.status(200).send(`<!doctype html>
-<html lang="en">
-  <head>
-    <meta charset="utf-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1" />
-    <title>Authorization Code</title>
-    <style>
-      * {
-        box-sizing: border-box;
-      }
+  if (isCodeOnlyRequest) {
+    return redirectToAuthCodePage(response, {
+      auth: 'code',
+      code,
+      state,
+      received_at: new Date().toISOString(),
+    });
+  }
 
-      body {
-        min-height: 100vh;
-        margin: 0;
-        display: grid;
-        place-items: center;
-        background: #f4f7f4;
-        color: #18241c;
-        font-family: Arial, Helvetica, sans-serif;
-      }
+  const { clientKey, clientSecret } = getTikTokCredentials(state);
 
-      main {
-        width: min(92vw, 560px);
-        padding: 28px;
-        background: #ffffff;
-        border: 1px solid #d9e4da;
-        border-radius: 8px;
-        box-shadow: 0 18px 45px rgba(20, 50, 28, 0.12);
-      }
+  if (!clientKey || !clientSecret) {
+    return response.status(500).send('TikTok client key or secret is not configured.');
+  }
 
-      h1 {
-        margin: 0 0 8px;
-        font-size: 24px;
-        line-height: 1.2;
-      }
+  const tokenBody = new URLSearchParams({
+    client_key: clientKey,
+    client_secret: clientSecret,
+    code,
+    grant_type: 'authorization_code',
+    redirect_uri: REDIRECT_URI,
+  });
 
-      p {
-        margin: 0 0 18px;
-        color: #5d6b61;
-        line-height: 1.5;
-      }
+  const tokenResponse = await fetch(`${TIKTOK_API_BASE}/v2/oauth/token/`, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded',
+      'Cache-Control': 'no-cache',
+    },
+    body: tokenBody,
+  });
+  const tokenData = await tokenResponse.json();
 
-      label {
-        display: block;
-        margin-bottom: 8px;
-        font-weight: 700;
-        font-size: 14px;
-      }
+  if (!tokenResponse.ok || tokenData.error) {
+    return response.status(400).json({
+      ok: false,
+      error: tokenData.error || 'TikTok token exchange failed',
+      message: tokenData.error_description,
+      data: tokenData,
+    });
+  }
 
-      textarea {
-        width: 100%;
-        min-height: 132px;
-        resize: vertical;
-        padding: 12px;
-        border: 1px solid #b9c8bb;
-        border-radius: 6px;
-        color: #152019;
-        background: #fbfdfb;
-        font: 14px/1.5 Consolas, Monaco, monospace;
-      }
+  const accessTokenMaxAge = Number(tokenData.expires_in || 86400);
+  const refreshTokenMaxAge = Number(tokenData.refresh_expires_in || 31536000);
+  const cookies = [
+    makeCookie('tiktok_access_token', tokenData.access_token, accessTokenMaxAge),
+  ];
 
-      button {
-        width: 100%;
-        margin-top: 14px;
-        padding: 12px 16px;
-        border: 0;
-        border-radius: 6px;
-        background: #167a3f;
-        color: #ffffff;
-        font-weight: 700;
-        cursor: pointer;
-      }
+  if (tokenData.open_id) {
+    cookies.push(makeCookie('tiktok_open_id', tokenData.open_id, accessTokenMaxAge));
+  }
 
-      button:hover {
-        background: #106532;
-      }
+  if (tokenData.refresh_token) {
+    cookies.push(makeCookie('tiktok_refresh_token', tokenData.refresh_token, refreshTokenMaxAge));
+  }
 
-      .status {
-        min-height: 20px;
-        margin-top: 10px;
-        color: #167a3f;
-        font-size: 13px;
-      }
-    </style>
-  </head>
-  <body>
-    <main>
-      <h1>Authorization Code</h1>
-      <p>Copy this code and paste it into your token exchange form.</p>
-      <label for="code">Code</label>
-      <textarea id="code" readonly>${escapeHtml(code)}</textarea>
-      <button id="copy" type="button">Copy code</button>
-      <div id="status" class="status" role="status" aria-live="polite"></div>
-    </main>
-    <script>
-      const code = document.getElementById('code');
-      const status = document.getElementById('status');
-      document.getElementById('copy').addEventListener('click', async () => {
-        try {
-          await navigator.clipboard.writeText(code.value);
-          status.textContent = 'Copied to clipboard.';
-        } catch {
-          code.select();
-          document.execCommand('copy');
-          status.textContent = 'Copied to clipboard.';
-        }
-      });
-    </script>
-  </body>
-</html>`);
-}
-
-function escapeHtml(value) {
-  return String(value)
-    .replaceAll('&', '&amp;')
-    .replaceAll('<', '&lt;')
-    .replaceAll('>', '&gt;')
-    .replaceAll('"', '&quot;')
-    .replaceAll("'", '&#039;');
+  response.setHeader('Set-Cookie', cookies);
+  return response.redirect(302, '/contentpost-to-tiktok?auth=success');
 }
