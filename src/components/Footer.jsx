@@ -1,6 +1,7 @@
-import { Link } from 'react-router-dom';
 import { Mail, Globe, MessageCircle, Share2, Link as LinkIcon } from 'lucide-react';
 import './Footer.css';
+
+const SITE_URL = 'https://khgtech.vip';
 
 const Footer = () => {
   return (
@@ -8,14 +9,14 @@ const Footer = () => {
       <div className="container footer-container">
 
         <div className="footer-col">
-          <Link to="/" className="footer-logo">
+          <a href={`${SITE_URL}/`} className="footer-logo">
             <img src="/khgtech-logo.png" alt="khgtech" className="footer-logo-img" />
-          </Link>
+          </a>
           <p className="footer-desc">
             khgtech is a software platform that helps users and teams work more efficiently — with powerful integrations, workflow tools, and a clean, developer-friendly API.
           </p>
           <div className="social-links">
-            <a href="https://khgtech.vip" className="social-icon"><Globe size={20} /></a>
+            <a href={SITE_URL} className="social-icon"><Globe size={20} /></a>
             <a href="#" className="social-icon"><MessageCircle size={20} /></a>
             <a href="#" className="social-icon"><Share2 size={20} /></a>
             <a href="#" className="social-icon"><LinkIcon size={20} /></a>
@@ -25,21 +26,21 @@ const Footer = () => {
         <div className="footer-col">
           <h3>Quick Links</h3>
           <ul className="footer-links">
-            <li><Link to="/">Home</Link></li>
-            <li><Link to="/tiktok-demo">Login Kit</Link></li>
-            <li><Link to="/contentpost-to-tiktok">Content Posting API</Link></li>
-            <li><Link to="/privacy">Privacy Policy</Link></li>
-            <li><Link to="/terms">Terms of Service</Link></li>
+            <li><a href={`${SITE_URL}/`}>Home</a></li>
+            <li><a href={`${SITE_URL}/tiktok-demo`}>Login Kit</a></li>
+            <li><a href={`${SITE_URL}/contentpost-to-tiktok`}>Content Posting API</a></li>
+            <li><a href={`${SITE_URL}/privacy`}>Privacy Policy</a></li>
+            <li><a href={`${SITE_URL}/terms`}>Terms of Service</a></li>
           </ul>
         </div>
 
         <div className="footer-col">
           <h3>Platform</h3>
           <ul className="footer-links">
-            <li><Link to="/tiktok-demo">TikTok Login Kit</Link></li>
-            <li><Link to="/contentpost-to-tiktok">Content Posting API</Link></li>
-            <li><Link to="/privacy">Privacy Policy</Link></li>
-            <li><Link to="/terms">Terms of Service</Link></li>
+            <li><a href={`${SITE_URL}/tiktok-demo`}>TikTok Login Kit</a></li>
+            <li><a href={`${SITE_URL}/contentpost-to-tiktok`}>Content Posting API</a></li>
+            <li><a href={`${SITE_URL}/privacy`}>Privacy Policy</a></li>
+            <li><a href={`${SITE_URL}/terms`}>Terms of Service</a></li>
           </ul>
         </div>
 
@@ -48,11 +49,11 @@ const Footer = () => {
           <div className="contact-info">
             <div className="contact-item">
               <Mail size={18} className="contact-icon" />
-              <span>hello@khgtech.vip</span>
+              <a href="mailto:hello@khgtech.vip">hello@khgtech.vip</a>
             </div>
             <div className="contact-item">
               <Globe size={18} className="contact-icon" />
-              <span>https://khgtech.vip</span>
+              <a href={SITE_URL}>{SITE_URL}</a>
             </div>
           </div>
         </div>

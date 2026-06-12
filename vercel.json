@@ -10,11 +10,11 @@
     },
     {
       "source": "/terms",
-      "destination": "/terms/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/privacy",
-      "destination": "/privacy/index.html"
+      "destination": "/index.html"
     },
     {
       "source": "/(.*)",
