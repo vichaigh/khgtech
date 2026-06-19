@@ -316,7 +316,6 @@ const PostToTikTok = () => {
   const creatorAccountLooksPublic = Boolean(creatorInfo?.privacy_level_options?.includes('PUBLIC_TO_EVERYONE'));
   const unauditedPrivateAccountRequired = !directPostApproved && creatorAccountLooksPublic;
 
-  console.log('creatorInfo', creatorInfo);
 
   useEffect(() => {
     let active = true;
@@ -381,7 +380,6 @@ const PostToTikTok = () => {
     return errors;
   }, [caption, creatorInfo, disclosure, duration, file, mediaType, privacy, unauditedPrivateAccountRequired]);
 
-  console.log('validation', validation);
 
   const canPublish = Object.keys(validation).length === 0
     && publishState !== 'uploading'
